@@ -1,0 +1,28 @@
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: my-app
+  namespace: flux-system
+spec:
+  interval: 1m
+  ref:
+    branch: main
+  url: https://github.com/your-org/your-repo
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: my-app
+  namespace: flux-system
+spec:
+  interval: 5m
+  path: "./k8s/overlays/dev"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: my-app
+  healthChecks:
+  - apiVersion: apps/v1
+    kind: Deployment
+    name: my-app
+    namespace: my-app-dev

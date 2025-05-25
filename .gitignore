@@ -1,0 +1,18 @@
+# .dockerignore
+node_modules
+npm-debug.log
+.env
+.nyc_output
+coverage
+.nyc_output
+.coverage
+.coverage.*
+.cache
+.DS_Store
+*.log
+.vscode
+.idea
+*.swp
+*.swo
+*~
+models

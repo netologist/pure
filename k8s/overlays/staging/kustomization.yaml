@@ -1,0 +1,30 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: my-app-staging
+
+resources:
+- ../../base
+- namespace.yaml
+- ingress.yaml
+
+images:
+- name: my-app
+  newTag: staging
+
+configMapGenerator:
+- name: my-app-config
+  behavior: merge
+  literals:
+  - LOG_LEVEL=info
+  - ENV=staging
+  - DATABASE_HOST=staging-db.example.com
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: my-app
+  spec:
+    replicas: 3
